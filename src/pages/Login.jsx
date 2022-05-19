@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { userLogin } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -17,12 +19,6 @@ class Login extends React.Component {
     }, this.handleDesabled);
   }
 
-  handClick = (e) => {
-    e.preventDefault();
-    const { history } = this.props;
-    history.push('/carteira');
-  };
-
   handleDesabled = () => {
     const { email, password } = this.state;
     const minDig = 6;
@@ -39,6 +35,14 @@ class Login extends React.Component {
       });
     }
   }
+
+  handleClick = (e) => {
+    e.preventDefault();
+    const { history, dispatchEmail } = this.props;
+    const { email } = this.state;
+    history.push('/carteira');
+    dispatchEmail(email);
+  };
 
   render() {
     const { email, password, desabledButton } = this.state;
@@ -70,7 +74,7 @@ class Login extends React.Component {
 
         <button
           type="button"
-          onClick={ this.handClick }
+          onClick={ this.handleClick }
           disabled={ desabledButton }
         >
           Entrar
@@ -87,4 +91,8 @@ Login.propTypes = {
   }),
 }.isRequired;
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  dispatchEmail: (email) => dispatch(userLogin(email)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

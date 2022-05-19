@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { fetchActionThunk } from '../actions/index';
+import FormWallet from '../componenets/formWallet';
 
 class Wallet extends React.Component {
   componentDidMount() {
@@ -12,13 +13,18 @@ class Wallet extends React.Component {
   render() {
     const { email } = this.props;
     return (
-      <header data-testid="email-field">
-        <h3>{ email }</h3>
-        <p data-testid="total-field">
-          0
-          <span data-testid="header-currency-field"> BRL</span>
-        </p>
-      </header>
+      <main>
+        <header data-testid="email-field">
+          <h3>{ email }</h3>
+          <p data-testid="total-field">
+            0
+            <span data-testid="header-currency-field"> BRL</span>
+          </p>
+        </header>
+        <section>
+          <FormWallet />
+        </section>
+      </main>
     );
   }
 }

@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { fetchActionThunk } from '../actions/index';
+
 import FormWallet from '../componenets/formWallet';
+import Table from '../componenets/tableWallet';
 
 class Wallet extends React.Component {
   componentDidMount() {
@@ -29,33 +31,9 @@ class Wallet extends React.Component {
         </header>
         <section>
           <FormWallet />
+          <Table />
         </section>
 
-        <table style={ { border: 'solid 1px red', width: '77.8vw' } }>
-          <thead>
-            <tr>
-              <th>Descrição</th>
-              <th>Tag</th>
-              <th>Método de pagamento</th>
-              <th>Valor</th>
-              <th>Moeda</th>
-              <th>Câmbio utilizado</th>
-              <th>Valor convertido</th>
-              <th>Moeda de conversão</th>
-              <th>Editar/Excluir</th>
-            </tr>
-          </thead>
-          <tbody>
-            {expenses.map((expense, index) => (
-              <tr key={ expense.id }>
-                <td>{index + 1}</td>
-                <td>{expense.currency}</td>
-                <td>{expense.value}</td>
-                <td>{expense.date}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </main>
     );
   }
@@ -64,7 +42,6 @@ class Wallet extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.user.email,
   expenses: state.wallet.expenses,
-  currencies: state.wallet.currencies,
 });
 
 const mapDispatchToProps = (dispatch) => ({

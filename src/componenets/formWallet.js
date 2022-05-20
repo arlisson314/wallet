@@ -66,6 +66,7 @@ class FormWallet extends React.Component {
             name="currency"
             id="currency"
           >
+            {/* <option value="" selected disabled hidden>Selecione</option> */}
             {currencies.map((coins, index) => (
               <option value={ coins } key={ index }>
                 {coins}
@@ -83,6 +84,7 @@ class FormWallet extends React.Component {
             name="method"
             id="method"
           >
+            {/* <option value="" selected disabled hidden>Selecione</option> */}
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
             <option value="Cartão de débito">Cartão de débito</option>
@@ -98,6 +100,7 @@ class FormWallet extends React.Component {
             name="tag"
             id="category"
           >
+            {/* <option value="" selected disabled hidden>Selecione</option> */}
             <option>Alimentação</option>
             <option>Lazer</option>
             <option>Trabalho</option>

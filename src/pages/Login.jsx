@@ -21,9 +21,9 @@ class Login extends React.Component {
 
   handleDesabled = () => {
     const { email, password } = this.state;
-    const minDig = 6;
+    const MIN_DIG = 6;
     const validEmail = /^.*@.*\.com$/.test(email);
-    const passwordValid = password.length >= minDig;
+    const passwordValid = password.length >= MIN_DIG;
 
     if (validEmail && passwordValid) {
       this.setState({

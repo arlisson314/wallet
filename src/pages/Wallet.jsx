@@ -10,16 +10,20 @@ class Wallet extends React.Component {
     coins();
   }
 
+  // expenses.map((expense) => expense.exchangeRates[expense.currency].ask);
   render() {
-    const { email } = this.props;
+    const { email, expenses } = this.props;
+
+    const totalFild = expenses.reduce((acc, expense) => acc + (
+      expense.value
+    * expense.exchangeRates[expense.currency].ask), 0);
+
     return (
       <main>
         <header data-testid="email-field">
           <h3>{ email }</h3>
-          <p data-testid="total-field">
-            0
-            <span data-testid="header-currency-field"> BRL</span>
-          </p>
+          <h3 data-testid="total-field">{(totalFild.toFixed(2))}</h3>
+          <h3 data-testid="header-currency-field"> BRL</h3>
         </header>
         <section>
           <FormWallet />
@@ -31,6 +35,7 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,17 +1,57 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { fetchExpensesActionThunk } from '../actions';
 
 class FormWallet extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: 0,
+      value: '0',
+      description: '',
+      currency: '',
+      method: '',
+      tag: '',
+    };
+  }
+
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleClick = (e) => {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    dispatch(fetchExpensesActionThunk(this.state));
+    // const { expensesUpdate } = this.props;
+    // expensesUpdate(this.state);
+
+    this.setState((prev) => ({
+      id: prev.id + 1,
+      value: '0',
+      description: '',
+      currency: '',
+      method: '',
+      tag: '',
+    }));
+  }
+
   render() {
+    const { value, description, currency, method, tag } = this.state;
     const { currencies } = this.props;
+
     return (
       <form>
         <label htmlFor="value">
           Valor:
           <input
+            onChange={ this.handleChange }
+            value={ value }
             data-testid="value-input"
-            type="text"
+            type="number"
             name="value"
             id="value"
           />
@@ -20,17 +60,15 @@ class FormWallet extends React.Component {
         <label htmlFor="currency">
           Moeda:
           <select
+            onChange={ this.handleChange }
+            value={ currency }
             name="currency"
             id="currency"
           >
-            {currencies.map((currency) => (
-              <option
-                value={ currency }
-                key={ currency }
-              >
-                {currency}
+            {currencies.map((coins, index) => (
+              <option value={ coins } key={ index }>
+                {coins}
               </option>
-
             ))}
           </select>
         </label>
@@ -38,6 +76,8 @@ class FormWallet extends React.Component {
         <label htmlFor="method">
           Método de pagemanto:
           <select
+            onChange={ this.handleChange }
+            value={ method }
             data-testid="method-input"
             name="method"
             id="method"
@@ -51,6 +91,8 @@ class FormWallet extends React.Component {
         <label htmlFor="category">
           categoria:
           <select
+            onChange={ this.handleChange }
+            value={ tag }
             data-testid="tag-input"
             name="tag"
             id="category"
@@ -66,12 +108,21 @@ class FormWallet extends React.Component {
         <label htmlFor="description">
           Descrição:
           <input
+            onChange={ this.handleChange }
+            value={ description }
             data-testid="description-input"
             type="text"
             name="description"
             id="description"
           />
         </label>
+
+        <button
+          type="submit"
+          onClick={ this.handleClick }
+        >
+          Adicionar despesa
+        </button>
       </form>
     );
   }
@@ -81,8 +132,14 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
 });
 
+// const mapDispatchToProps = (dispatch) => ({
+//   expensesUpdate: () => dispatch(fetchExpensesActionThunk()),
+// });
+
 FormWallet.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // expensesUpdate: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(FormWallet);

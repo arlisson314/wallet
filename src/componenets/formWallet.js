@@ -26,9 +26,6 @@ class FormWallet extends React.Component {
     e.preventDefault();
     const { dispatch } = this.props;
     dispatch(fetchExpensesActionThunk(this.state));
-    // const { expensesUpdate } = this.props;
-    // expensesUpdate(this.state);
-
     this.setState((prev) => ({
       id: prev.id + 1,
       value: '0',
@@ -37,6 +34,10 @@ class FormWallet extends React.Component {
       method: '',
       tag: '',
     }));
+    // const { expensesUpdate } = this.props;
+    // const spance = this.state;
+    // console.log(expensesUpdate);
+    // expensesUpdate(this.state);
   }
 
   render() {

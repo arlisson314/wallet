@@ -1,5 +1,11 @@
 // Coloque aqui suas actions
-import { USER_LOGIN, FETCH_CURRENCIES, FETCH_EXPENSES } from './actionTypes';
+import {
+  USER_LOGIN,
+  FETCH_CURRENCIES,
+  FETCH_EXPENSES,
+  DELETE,
+  EDITAR } from './actionTypes';
+
 import fetchCoins from '../seviçes/fetchAPI';
 
 export const userLogin = (user) => ({
@@ -7,7 +13,8 @@ export const userLogin = (user) => ({
   payload: user,
 });
 
-// _______________________________________________________
+// _____________________________________________________________________________
+
 export const fetchCurrenceUpdate = (currencies) => ({
   type: FETCH_CURRENCIES,
   payload: currencies,
@@ -19,7 +26,8 @@ export const fetchActionThunk = () => async (dispatch) => {
   dispatch(fetchCurrenceUpdate(result));
 };
 
-// _______________________________________________________
+// _____________________________________________________________________________
+
 export const fetchExpensesUpdate = (walletState, expenses) => ({
   type: FETCH_EXPENSES,
   expenses,
@@ -31,3 +39,13 @@ export const fetchExpensesActionThunk = (walletState) => async (dispatch) => {
   delete response.USDT;
   dispatch(fetchExpensesUpdate(walletState, response));
 };
+
+export const deleteButton = (deleteID) => ({
+  type: DELETE,
+  payload: deleteID,
+});
+
+export const editButton = (editarID) => ({
+  type: EDITAR,
+  payload: editarID,
+});

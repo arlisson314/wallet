@@ -10,9 +10,9 @@ class FormWallet extends React.Component {
       id: 0,
       value: '0',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
   }
 
@@ -24,20 +24,15 @@ class FormWallet extends React.Component {
 
   handleClick = (e) => {
     e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(fetchExpensesActionThunk(this.state));
+    const { expensesUpdate } = this.props;
+    expensesUpdate(this.state);
+
     this.setState((prev) => ({
       id: prev.id + 1,
       value: '0',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
     }));
-    // const { expensesUpdate } = this.props;
-    // const spance = this.state;
-    // console.log(expensesUpdate);
-    // expensesUpdate(this.state);
   }
 
   render() {
@@ -136,14 +131,13 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   expensesUpdate: () => dispatch(fetchExpensesActionThunk()),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  expensesUpdate: (state) => dispatch(fetchExpensesActionThunk(state)),
+});
 
 FormWallet.propTypes = {
-  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // expensesUpdate: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
+  currencies: PropTypes.arrayOf(PropTypes.string),
+  expensesUpdate: PropTypes.func,
+}.isRequired;
 
-export default connect(mapStateToProps)(FormWallet);
+export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);

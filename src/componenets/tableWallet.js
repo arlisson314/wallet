@@ -1,12 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { deleteButton } from '../actions/index';
 
 class Table extends React.Component {
+  buttonDell = (expenseId) => {
+    const { dell } = this.props;
+    dell(expenseId);
+  }
+
   render() {
     const { expenses } = this.props;
     return (
-      <table style={ { border: 'solid 1px red', width: '77.8vw' } }>
+      <table>
+
         <thead>
           <tr>
             <th>Descrição</th>
@@ -20,9 +27,10 @@ class Table extends React.Component {
             <th>Editar/Excluir</th>
           </tr>
         </thead>
+
         <tbody>
-          {expenses.map((expense, index) => (
-            <tr key={ index }>
+          {expenses.map((expense) => (
+            <tr key={ expense.id }>
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
               <td>{expense.method}</td>
@@ -34,10 +42,26 @@ class Table extends React.Component {
                 * expense.exchangeRates[expense.currency].ask).toFixed(2)}
               </td>
               <td> Real </td>
+              <td>
+                <button
+                  data-testid="edit-btn"
+                  type="button"
+                >
+                  Editar
+                </button>
 
+                <button
+                  data-testid="delete-btn"
+                  type="button"
+                  onClick={ () => this.buttonDell(expense.id) }
+                >
+                  Deletar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
+
       </table>
     );
   }
@@ -46,8 +70,13 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-Table.propTypes = {
-  expenses: propTypes.arrayOf(propTypes.object).isRequired,
-};
+const mapDispatchToProps = (dispatch) => ({
+  dell: (id) => dispatch(deleteButton(id)),
+});
 
-export default connect(mapStateToProps)(Table);
+Table.propTypes = {
+  expenses: propTypes.arrayOf(propTypes.object),
+  dell: propTypes.func,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

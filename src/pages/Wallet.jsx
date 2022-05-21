@@ -14,9 +14,6 @@ class Wallet extends React.Component {
 
   render() {
     const { email, expenses } = this.props;
-    // const ask = expenses.filter((expense) => expenses.currency
-    // === expense.exchangeRates[expense.currency]);
-    // console.log(ask);
 
     const totalFild = expenses.reduce((acc, expense) => acc + (
       expense.value

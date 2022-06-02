@@ -4,7 +4,7 @@ const fetchCoins = async () => {
     const currence = await response.json();
     return currence;
   } catch (error) {
-    console.log(error);
+    console.log(error, 'error na requisição da  api');
   }
 };
 

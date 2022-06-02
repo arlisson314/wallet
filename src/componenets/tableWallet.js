@@ -1,12 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { deleteButton } from '../actions/index';
+import { deleteButton, editButton } from '../actions/index';
 
 class Table extends React.Component {
-  buttonDell = (expenseId) => {
+  buttonDell = (deleteExpenseId) => {
     const { dell } = this.props;
-    dell(expenseId);
+    dell(deleteExpenseId);
+  }
+
+  buttonEdite = (editeExpenseId) => {
+    const { edit } = this.props;
+    // const { expenses, edit } = this.props;
+    edit(editeExpenseId);
+    // edit(expenses.find((obj) => obj.id === editeExpenseId));
+    // console.log(edit(expenses.find((obj) => obj.id === editeExpenseId)));
+    // console.log(newObj);
   }
 
   render() {
@@ -35,7 +44,7 @@ class Table extends React.Component {
               <td>{expense.tag}</td>
               <td>{expense.method}</td>
               <td>{Number(expense.value).toFixed(2)}</td>
-              <td>{(expense.exchangeRates[expense.currency].name)}</td>
+              <td>{expense.exchangeRates[expense.currency].name}</td>
               <td>{Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
               <td>
                 {Number(expense.value
@@ -44,6 +53,7 @@ class Table extends React.Component {
               <td> Real </td>
               <td>
                 <button
+                  onClick={ () => this.buttonEdite(expense.id) }
                   data-testid="edit-btn"
                   type="button"
                 >
@@ -72,6 +82,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dell: (id) => dispatch(deleteButton(id)),
+  edit: (id) => dispatch(editButton(id)),
 });
 
 Table.propTypes = {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchExpensesActionThunk } from '../actions';
+import { saveEdite } from '../actions';
 
-class FormWallet extends React.Component {
+class EditFormWallet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +16,13 @@ class FormWallet extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { editId } = this.props;
+    this.setState({
+      id: editId,
+    });
+  }
+
   handleChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value,
@@ -24,25 +31,22 @@ class FormWallet extends React.Component {
 
   handleClick = (e) => {
     e.preventDefault();
-    const { expensesUpdate } = this.props;
-    expensesUpdate(this.state);
-
-    this.setState((prev) => ({
-      id: prev.id + 1,
+    const { expensesSaveEdite } = this.props;
+    expensesSaveEdite(this.state);
+    this.setState({
       value: '0',
       description: '',
       currency: 'USD',
-    }));
+    });
   }
 
   render() {
     const { value, description, currency, method, tag } = this.state;
     const { currencies } = this.props;
-
     return (
-      <form style={ { border: 'red' } }>
+      <form>
         <label htmlFor="value">
-          Valor:
+          Valor2:
           <input
             onChange={ this.handleChange }
             value={ value }
@@ -96,11 +100,11 @@ class FormWallet extends React.Component {
             id="category"
           >
             {/* <option value="" selected disabled hidden>Selecione</option> */}
-            <option value="Alimentação">Alimentação</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
+            <option>Alimentação</option>
+            <option>Lazer</option>
+            <option>Trabalho</option>
+            <option>Transporte</option>
+            <option>Saúde</option>
           </select>
         </label>
 
@@ -117,10 +121,10 @@ class FormWallet extends React.Component {
         </label>
 
         <button
-          type="submit"
+          type="button"
           onClick={ this.handleClick }
         >
-          Adicionar despesa
+          Editar despesa
         </button>
       </form>
     );
@@ -129,17 +133,19 @@ class FormWallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expeneses: state.wallet.expenses,
   editInfo: state.wallet.editInfo,
   editId: state.wallet.editId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  expensesUpdate: (state) => dispatch(fetchExpensesActionThunk(state)),
+  expensesSaveEdite: (state) => dispatch(saveEdite(state)),
 });
 
-FormWallet.propTypes = {
+EditFormWallet.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string),
   expensesUpdate: PropTypes.func,
+  expeneses: PropTypes.arrayOf(PropTypes.object),
 }.isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);
+export default connect(mapStateToProps, mapDispatchToProps)(EditFormWallet);
